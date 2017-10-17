@@ -1,0 +1,55 @@
+html,body,h1,h2{
+	margin:0;
+	padding: 0;
+	
+}
+html,body{
+	width: 100%;
+	height: 100%;
+}
+main{
+	width: 100%;
+	height: 100%;
+	position: relative;
+	text-align: center;
+}
+.first{
+	background: url("../image/fixed-1.jpg") no-repeat center center;
+	background-attachment: fixed;
+	position: relative;
+	background-size:cover;
+	width: 100%;
+	height: 100%;
+
+}
+ h1{
+ 	
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform:translate(-50%,-50%);
+}
+h2{
+	padding: 25px;
+}
+.second,.fourth {
+  background-color: #3d3536;
+  color: #a6989a;
+}
+
+.third{
+	background: url("../image/fixed-2.jpg") no-repeat center center;
+	background-attachment: fixed;
+	position: relative;
+	background-size:cover;
+	width: 100%;
+	height: 100%
+}
+.fifth{
+	background: url("../image/fixed-3.jpg") no-repeat center center;
+	background-attachment: fixed;
+	position: relative;
+	background-size:cover;
+	width: 100%;
+	height: 100%;
+}

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body,
+        html {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            background: url("./bgimage/3.jpg") no-repeat;
+            background-size: 100%;
+            
+        }
+
+        .date {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 900px;
+            height: 100px;
+            font-size: 50px;
+            background-color: greenyellow;
+            text-align: center;
+            line-height: 100px;
+            color: red;
+        }
+
+        .wrap {
+            width: 100%;
+            margin: 150px auto;
+        }
+
+        .slide {
+            height: 500px;
+            position: relative;
+        }
+
+        .slide li {
+            position: absolute;
+            left: 200px;
+            top: 0;
+        }
+
+        .slide li img {
+            /* width:800px;
+                height: 500px; */
+            width: 100%;
+        }
+
+        .arrow {
+            opacity: 0;
+        }
+
+        .prev,
+        .next {
+            width: 76px;
+            height: 112px;
+            position: absolute;
+            top: 50%;
+            margin-top: -56px;
+            background: url(./images/prev.png) no-repeat;
+            z-index: 99;
+        }
+
+        .next {
+            right: 0;
+            background-image: url(./images/next.png);
+        }
+    </style>
+</head>
+
+<body>
+        <main>
+                <div class="first">
+                    <div class="date">
+    </div>
+    <!-- <div class="img">
+                        <img src="./image/IMG_3790.JPG" alt="">
+                    </div> -->
+
+    <div class="wrap" id="wrap">
+        <div class="slide" id="slide">
+            <ul>
+                <li><a href="#"><img src="image/IMG_3790.JPG" alt=""/></a></li>
+                <li><a href="#"><img src="image/IMG_3791.JPG" alt=""/></a></li>
+                <li><a href="#"><img src="image/IMG_3792.JPG" alt=""/></a></li>
+                <li><a href="#"><img src="image/IMG_3793.JPG" alt=""/></a></li>
+                <li><a href="#"><img src="image/IMG_3794.JPG" alt=""/></a></li>
+
+            </ul>
+            <div class="arrow" id="arrow">
+                <a href="javascript:;" class="prev"></a>
+                <a href="javascript:;" class="next"></a>
+            </div>
+        </div>
+    </div>
+        <script src="./animate.js"></script>
+        <script>
+            timer = setInterval(function () {
+                var date1 = document.querySelector(".date");
+                var date = new Date();
+                var nowTime = date.getTime();
+                var featureTime = new Date("2017 / 10 / 26").getTime();
+                var timeC = featureTime - nowTime;
+
+                var day = parseInt(timeC / 1000 / 60 / 60 / 24);
+                var hour = parseInt(timeC / 1000 / 60 / 60 % 24);
+                var minute = parseInt(timeC / 1000 / 60 % 60);
+                var second = parseInt(timeC / 1000 % 60);
+
+                day = day < 10 ? "0" + day : day;
+                hour = hour < 10 ? "0" + hour : hour;
+                minute = minute < 10 ? "0" + minute : minute;
+                second = second < 10 ? "0" + second : second;
+
+                date1.innerHTML = "距离哈哈还有:" + day + "天:" + hour + "小时:" + minute + "分钟:" + second + "秒";
+
+                if (timeC == 0) {
+                    clearInterval(timer);
+                }
+            }, 1)
+        </script>
+        <script type="text/javascript">
+            var aLiJson = [{
+                    "width": 400,
+                    "top": 70,
+                    "left": 50,
+                    "opacity": 20,
+                    "z-index": 2
+                },
+                {
+                    "width": 600,
+                    "top": 120,
+                    "left": 0,
+                    "opacity": 60,
+                    "z-index": 3
+                },
+                {
+                    "width": 800,
+                    "top": 100,
+                    "left": 200,
+                    "opacity": 100,
+                    "z-index": 4
+                },
+                {
+                    "width": 600,
+                    "top": 120,
+                    "left": 600,
+                    "opacity": 60,
+                    "z-index": 3
+                },
+                {
+                    "width": 400,
+                    "top": 70,
+                    "left": 750,
+                    "opacity": 20,
+                    "z-index": 2
+                }
+            ];
+
+            // 获取页面上的所有的li
+            var oSlide = document.getElementById("slide");
+            var aLi = oSlide.getElementsByTagName("li");
+
+            var oWrap = document.getElementById("wrap");
+            var oArrow = document.getElementById("arrow");
+            var aA = oArrow.getElementsByTagName("a");
+            var prev = aA[0];
+            var next = aA[1];
+
+            // 建立一个开关 控制一下 单击的时间
+            var flag = true;
+
+            core();
+            // 鼠标移到wrap身上 让arrow出来  让它的透明度为1 移开 透明度变回0
+            oWrap.onmouseover = function () {
+                oArrow.className = "";
+            }
+            oWrap.onmouseout = function () {
+                oArrow.className = "arrow";
+            }
+
+            // 单击左侧按钮 
+            prev.onclick = function () {
+                if (flag) {
+                    flag = false;
+                    core(true);
+                }
+
+            }
+
+            next.onclick = function () {
+                if (flag) {
+                    flag = false;
+                    // 如果当前是真的，说明要么是第一次单击 要么之前的运动结束了
+                    core(false);
+                }
+
+
+            }
+
+
+            function core(onOff) {
+
+                // 判断 onOff是否未定义 如果是未定义 说明不做任何调整 直接初始化位置
+                if (onOff != undefined) {
+                    // 如果是真的 说明单击了左侧按钮
+                    if (onOff) {
+                        // 将数组信息 做一个调整 把第一个位置 放到最后一个去
+                        aLiJson.unshift(aLiJson.pop());
+                    } else {
+                        // 如果是真的 说明单击了右侧按钮	
+                        aLiJson.push(aLiJson.shift());
+                    }
+                }
+
+                // 打开页面 做一个初始化的位置调整
+                for (var i = 0; i < aLi.length; i++) {
+                    animate(aLi[i], aLiJson[i], function () {
+                        flag = true;
+                    })
+                }
+
+            }
+        </script>
+
+</body>
+
+</html>
